@@ -19,6 +19,8 @@ namespace EcommerceWebApi.ViewModels
         private readonly IConfiguration configuration;
         private readonly EcommerceDBContext db;
 
+        public bool _IsAdmin { get; private set; }
+
         public JWTManagerRepository(IConfiguration _configuration, EcommerceDBContext _db)
         {
             db = _db;
@@ -43,7 +45,7 @@ namespace EcommerceWebApi.ViewModels
             }
             else
             {
-                //_lsAdmin = db.TblLogins.Any(x => x.Username == registerViewModel.UserName && x.Password == registerViewModel.Password && x.IsAdmin == 1);
+                _IsAdmin = db.TblLogins.Any(x => x.Username == registerViewModel.UserName && x.Password == registerViewModel.Password && x.IsAdmin == 1);
             }
             UserRecords = db.TblLogins.ToList().ToDictionary(x => x.Username, x => x.Password);
             if (!UserRecords.Any(x => x.Key == registerViewModel.UserName && x.Value == registerViewModel.Password))
